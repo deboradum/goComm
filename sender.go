@@ -14,7 +14,8 @@ func main() {
     _, err := net.Dial("tcp", port)
 
     if err != nil {
-        // handle error
+        fmt.Println(err)
+        os.Exit(1)
     }
 	fmt.Printf("Established connection.\n")
 
@@ -32,7 +33,8 @@ func main() {
 		// fmt.Fprintf(conn, "GET / HTTP/1.0\r\n\r\n")
     	// status, err := bufio.NewReader(conn).ReadString('\n')
 		if err != nil {
-			// handle error
+			fmt.Println(err)
+        	os.Exit(1)
 		}
 		// fmt.Println(status)
 	}
