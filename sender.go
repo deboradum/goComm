@@ -11,15 +11,30 @@ func main() {
 	fmt.Printf("Sending connection request on port %v...\n", port)
 
     // Dial
-    conn, err := net.Dial("tcp", port)
+    _, err := net.Dial("tcp", port)
 
     if err != nil {
         // handle error
     }
 	fmt.Printf("Established connection.\n")
-    fmt.Fprintf(conn, "GET / HTTP/1.0\r\n\r\n")
-    status, err := bufio.NewReader(conn).ReadString('\n')
 
+	// Create input reader
+	reader := bufio.NewReader(os.Stdin)
 
-    fmt.Println(status)
+	for {
+		fmt.Printf("You: ")
+		text, _ := reader.ReadString('\n')
+		// Skip empty text.
+		if text == "\n" {
+			continue
+		}
+		fmt.Printf(text)
+		// fmt.Fprintf(conn, "GET / HTTP/1.0\r\n\r\n")
+    	// status, err := bufio.NewReader(conn).ReadString('\n')
+		if err != nil {
+			// handle error
+		}
+		// fmt.Println(status)
+	}
+
 }
