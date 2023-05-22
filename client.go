@@ -1,9 +1,9 @@
 package main
 
+import C "gocomm/connection"
 import "fmt"
 import "net"
 import "os"
-import C "gocomm/connection"
 import "runtime"
 
 func main() {
