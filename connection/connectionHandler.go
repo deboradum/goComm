@@ -12,27 +12,27 @@ type Message struct {
 	text []byte
 }
 
-func (mess Message) EncryptMessage() ([]byte) {
+func (mess Message) EncryptMessage() ([]byte, error) {
 	label := []byte("mes")
 	rng := rand.Reader
 	ciphertext, err := rsa.EncryptOAEP(sha256.New(), rng, &test2048Key.PublicKey, mess, label)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Did not send message, got error from encryption: %s\n", err)
-		return []byte("")
+		return nil, err
 	}
 
-	return ciphertext
+	return ciphertext, nil
 }
 
-func (mess Message) DecryptMessage() ([]byte) {
+func (mess Message) DecryptMessage() ([]byte, error) {
 	label := []byte("mes")
 	plaintext, err := rsa.DecryptOAEP(sha256.New(), nil, test2048Key, mess, label)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Did not receive message, got error from decryption: %s\n", err)
-		return []byte("")
+		return nil, err
 	}
 
-	return plaintext
+	return plaintext, nil
 }
 
 func HandleConnectionListen(conn net.Conn) {
