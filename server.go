@@ -4,11 +4,12 @@ import "fmt"
 import "net"
 import "os"
 import C "gocomm/connection"
+import "runtime"
 
 func main() {
 	port := ":" + os.Args[1]
 
-	// Listens for handshake requests.
+	// Listens for handshake request.
 	fmt.Printf("Listening on port %v...\n", port)
     ln, err := net.Listen("tcp",  port)
     if err != nil {
@@ -23,8 +24,9 @@ func main() {
         os.Exit(1)
     }
     fmt.Printf("Established connection.\n")
-    for {
-		go C.HandleConnectionListen(conn)
-		go C.HandleConnectionWrite(conn)
-    }
+
+    go C.HandleConnectionListen(conn)
+    go C.HandleConnectionWrite(conn)
+    // Waits until routines are done.
+    runtime.Goexit()
 }
