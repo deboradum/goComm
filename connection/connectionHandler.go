@@ -4,23 +4,19 @@ import "bufio"
 import "fmt"
 import "net"
 import "os"
-import "time"
 
 func HandleConnectionListen(conn net.Conn) {
     for {
 		buffer := make([]byte, 1024)
-		size, err := conn.Read(buffer)
+		_, err := conn.Read(buffer)
 		if err != nil {
+			fmt.Print("\n")
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		if size == 0 {
-			continue
-		}
 		respText := string(buffer)
-		time := time.Now().Format("15:04:05")
 		fmt.Print("\n")
-		fmt.Printf(time + ": " +  respText)
+		fmt.Printf("Anon: " +  respText)
 		fmt.Printf("You: ")
     }
 }
