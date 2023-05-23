@@ -17,7 +17,7 @@ func (mess Message) EncryptMessage() ([]byte, error) {
 	rng := rand.Reader
 	ciphertext, err := rsa.EncryptOAEP(sha256.New(), rng, &test2048Key.PublicKey, mess, label)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Did not send message, got error from encryption: %s\n", err)
+		fmt.Fprintf(os.Stderr, "Did not send message, got error from encryption: %s\n", err) // remove later
 		return nil, err
 	}
 
@@ -28,7 +28,7 @@ func (mess Message) DecryptMessage() ([]byte, error) {
 	label := []byte("mes")
 	plaintext, err := rsa.DecryptOAEP(sha256.New(), nil, test2048Key, mess, label)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Did not receive message, got error from decryption: %s\n", err)
+		fmt.Fprintf(os.Stderr, "Did not receive message, got error from decryption: %s\n", err) // remove later
 		return nil, err
 	}
 
@@ -37,14 +37,15 @@ func (mess Message) DecryptMessage() ([]byte, error) {
 
 func HandleConnectionListen(conn net.Conn) {
     for {
-		buffer := make([]byte, 2048)
-		_, err := conn.Read(buffer)
+		buffer := Message{text: make([]byte, 2048)}
+		_, err := conn.Read(buffer.text)
 		if err != nil {
 			fmt.Print("\n")
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		respText := string(buffer)
+		// Need to decrypt
+		respText := string(buffer.text)
 		fmt.Print("\n")
 		fmt.Printf("Anon: " +  respText)
 		fmt.Printf("You: ")
@@ -61,7 +62,8 @@ func HandleConnectionWrite(conn net.Conn) {
 		if text == "\n" {
 			continue
 		}
-		textBytes := []byte(text)
-		conn.Write(textBytes)
+		textBytes := Message {text: []byte(text)}
+		// Need to encrypt
+		conn.Write(textBytes.text)
     }
 }
