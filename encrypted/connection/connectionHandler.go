@@ -16,6 +16,10 @@ func HandleConnectionListen(conn net.Conn) {
 		buffer := Message{Text: make([]byte, 2048)}
 		_, err := conn.Read(buffer.Text)
 		if err != nil {
+			if err.Error() == "EOF" {
+				fmt.Println("\nPeer closed the connection")
+				os.Exit(0)
+			}
 			fmt.Print("\n")
 			fmt.Println(err)
 			os.Exit(1)
