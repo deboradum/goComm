@@ -1,4 +1,4 @@
-# goComm
+# GoComm
 To gain experience with Go, I wanted to create a server client modelled chat. There are two versions: unencrypted chat and encrypted chat. Unencrypted uses the net go package, while the encrypted version uses crypte/tls.
 
 # Usage
