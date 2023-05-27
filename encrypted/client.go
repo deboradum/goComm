@@ -9,8 +9,9 @@ import "runtime"
 
 
 func main() {
-	port := os.Args[1]
+	address := os.Args[1]
 
+	// Read cert and key.
 	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
 	if err != nil {
 		fmt.Println(err)
@@ -19,8 +20,8 @@ func main() {
 	cfg := &tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
 
 	// Sends handshake request.
-	fmt.Printf("Sending connection request on port %v...\n", port)
-    conn, err := tls.Dial("tcp", port, cfg)
+	fmt.Printf("Sending connection request on address %v...\n", address)
+    conn, err := tls.Dial("tcp", address, cfg)
     if err != nil {
         fmt.Println(err)
         os.Exit(1)

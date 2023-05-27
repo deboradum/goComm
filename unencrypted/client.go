@@ -7,11 +7,11 @@ import "os"
 import "runtime"
 
 func main() {
-	port := ":" + os.Args[1]
+	address := os.Args[1]
 
 	// Sends handshake request.
-	fmt.Printf("Sending connection request on port %v...\n", port)
-    conn, err := net.Dial("tcp", port)
+	fmt.Printf("Sending connection request on address %v...\n", address)
+    conn, err := net.Dial("tcp", address)
     if err != nil {
         fmt.Println(err)
         os.Exit(1)
